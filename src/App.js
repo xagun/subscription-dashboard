@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 
-function App() {
+const Layout = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-layout">
+      <Sidebar />
+
+      <div className="dashboard-layout">
+        <Outlet />
+      </div>
     </div>
   );
+};
+
+const Sidebar = () => {
+  return <div>Sidebar</div>;
+};
+
+const Dashboard = () => {
+  return <div className="">Dashboard</div>;
+};
+
+const UserList = () => {
+  return <div className="">User List</div>;
+};
+
+const NotFound = () => {
+  return <div className="">Not found page</div>;
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <Dashboard />,
+      },
+      {
+        path: "/users",
+        element: <UserList />,
+      },
+    ],
+  },
+
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
