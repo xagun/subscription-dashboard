@@ -1,0 +1,149 @@
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-family: 'Lato', sans-serif;
+$base-spacing: 1rem;
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+
+}
+
+.main-layout {
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to top right, #171717, #000000);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 60px;
+  
+
+  .sidebar-container {
+    height: 100%;
+    width: 14%;
+   
+  
+      .sidebar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+
+        ul {
+            width: 100%;
+
+            li{
+                width: 100%;
+                color: white;
+                list-style: none;
+                font-size: large;
+                padding: 10px 0;
+
+                .sidebar-link {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    border-radius: 14px;
+                    cursor: pointer;
+                    text-decoration: none;
+                    color: white;
+                }
+                
+                .sidebar-link:hover {
+                    background-color: black;
+                }
+                
+                .active-link{
+                    background-color: black;
+                    color: white;
+                }
+                
+            }
+        }
+      }
+  }
+
+  .dashboard-layout {
+    background-color: white;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* This approximates shadow-2xl */
+    padding: 2rem;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+  }
+}
+
+
+
+
+// modal ui
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  /* Modal Box */
+  .modal {
+    background: #fff;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Modal Header */
+  .modal-header {
+    padding: 16px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
+  }
+  
+  .modal-close:hover {
+    color: #000;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    padding: 16px;
+  }
+  
