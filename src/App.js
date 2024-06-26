@@ -1,33 +1,9 @@
 import "./App.css";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-
-const Layout = () => {
-  return (
-    <div className="main-layout">
-      <Sidebar />
-
-      <div className="dashboard-layout">
-        <Outlet />
-      </div>
-    </div>
-  );
-};
-
-const Sidebar = () => {
-  return <div>Sidebar</div>;
-};
-
-const Dashboard = () => {
-  return <div className="">Dashboard</div>;
-};
-
-const UserList = () => {
-  return <div className="">User List</div>;
-};
-
-const NotFound = () => {
-  return <div className="">Not found page</div>;
-};
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./layout/Layout";
+import Dashboard from "./views/Dashboard";
+import UserList from "./views/UserList";
+import NotFound from "./views/NotFound";
 
 const router = createBrowserRouter([
   {
