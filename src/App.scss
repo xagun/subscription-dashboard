@@ -157,7 +157,7 @@ body {
           .custom-caret {
             position: absolute;
             top: 50%;
-            right: 10px; /* Adjust as needed */
+            right: 10px;
             transform: translateY(-50%);
             pointer-events: none; /* Ensures clicks pass through to select */
           }
@@ -168,15 +168,11 @@ body {
             -webkit-appearance: none; /* For older webkit browsers */
             -moz-appearance: none; /* For older Firefox */
 
-            /* Add custom background and padding */
-            background-color: #ffffff; /* Example background color */
-            padding: 10px 20px; /* Example padding */
-
-            /* Add a custom arrow */
-            // background-image: url("path_to_custom_arrow.svg");
+            background-color: #ffffff;
+            padding: 10px 20px;
             background-position: right center;
             background-repeat: no-repeat;
-            background-size: 20px; /* Adjust as needed */
+            background-size: 20px;
           }
         }
         input,
@@ -380,7 +376,62 @@ tbody tr:hover {
   }
 }
 
-.pagination .active {
-  background-color: $primary-purple;
-  color: white;
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+  input {
+    width: 40px !important;
+  }
+  .pagination {
+    display: flex;
+    gap: 10px;
+    // padding: 10px 50px;
+    // background-color: white;
+    // border-radius: 50px;
+    align-items: center;
+
+    .pagination-pages {
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      gap: 5px;
+      button {
+        border: none;
+      }
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      align-items: center;
+      font-size: 12px;
+      border-radius: 50%;
+      font-weight: 600;
+      background-color: white;
+      //   border: 1px solid $primary-orange;
+      //   border-color: $primary-orange;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #8b58ce;
+        color: white;
+      }
+
+      svg {
+        font-size: 20px;
+      }
+    }
+    .active {
+      background-color: $primary-purple;
+      color: white;
+    }
+  }
 }

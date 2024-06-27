@@ -6,6 +6,7 @@ import moment from "moment";
 import { isSubscriptionExpired } from "../lib/utils";
 import { BiSort } from "react-icons/bi";
 import { PiCaretDownBold } from "react-icons/pi";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -16,7 +17,7 @@ const UserList = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  const [itemsPerPage] = useState(8); // Number of items per page
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -81,7 +82,9 @@ const UserList = () => {
   const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(parseInt(pageNumber));
+  console.log(currentPage);
+  console.log(typeof currentPage);
 
   // Pagination control display logic
   const pageNumbers = [];
@@ -95,6 +98,8 @@ const UserList = () => {
       number === currentPage ||
       number === currentPage - 1 ||
       number === currentPage + 1 ||
+      number === currentPage - 2 ||
+      number === currentPage + 2 ||
       number === Math.ceil(sortedUsers.length / itemsPerPage)
     ) {
       return (
@@ -106,7 +111,7 @@ const UserList = () => {
           {number}
         </button>
       );
-    } else if (number === currentPage - 2 || number === currentPage + 2) {
+    } else if (number === currentPage - 3 || number === currentPage + 3) {
       return (
         <span key={number} className="ellipsis">
           ...
@@ -115,6 +120,13 @@ const UserList = () => {
     }
     return null;
   });
+
+  const goToPage = (e) => {
+    let pageNo = parseInt(e.target.value);
+
+    if (pageNo > 0 && pageNo <= Math.ceil(sortedUsers.length / itemsPerPage))
+      paginate(e.target.value);
+  };
 
   if (isFetching) return "Loading....";
 
@@ -145,15 +157,25 @@ const UserList = () => {
           placeholder="Filter by country"
         />
 
-        {/* Pagination controls */}
-        <div className="pagination">
-          {currentPage !== 1 && (
-            <button onClick={() => paginate(currentPage - 1)}>Previous</button>
-          )}
-          {renderPageNumbers}
-          {currentPage !== Math.ceil(sortedUsers.length / itemsPerPage) && (
-            <button onClick={() => paginate(currentPage + 1)}>Next</button>
-          )}
+        <div className="pagination-container">
+          Goto <input type="number" onChange={goToPage} />
+          <div className="pagination">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <GrPrevious />
+            </button>
+            <div className="pagination-pages">{renderPageNumbers}</div>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={
+                currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
+              }
+            >
+              <GrNext />
+            </button>
+          </div>
         </div>
       </div>
       <div role="region" aria-label="data table" className="responsive-table">
