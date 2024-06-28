@@ -4,7 +4,13 @@ import { PiCaretDownBold } from "react-icons/pi";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import moment from "moment";
 
-const DataTable = ({ tableHeaders, tableData, handleRowClick, loading }) => {
+const DataTable = ({
+  tableHeaders,
+  tableData,
+  handleRowClick,
+  loading,
+  filter,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const [sortDirection, setSortDirection] = useState("asc");
@@ -37,7 +43,15 @@ const DataTable = ({ tableHeaders, tableData, handleRowClick, loading }) => {
   const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(parseInt(pageNumber));
+  const paginate = (pageNumber) => {
+    if (pageNumber == "0") {
+      setCurrentPage("");
+    } else if (pageNumber === "") {
+      setCurrentPage("");
+    } else {
+      setCurrentPage(parseInt(pageNumber));
+    }
+  };
 
   // Pagination control display logic
   const pageNumbers = [];
@@ -75,65 +89,67 @@ const DataTable = ({ tableHeaders, tableData, handleRowClick, loading }) => {
   });
 
   const goToPage = (e) => {
-    let pageNo = parseInt(e.target.value);
-    if (pageNo >= 0) paginate(e.target.value);
+    // let pageNo = parseInt(e.target.value);
+    paginate(e.target.value);
   };
 
   return (
     <>
-      <div className="search-filter">
-        <div className="search-select">
-          Search by:
-          <div className="custom-select">
-            <select
-              value={searchField}
-              onChange={(e) => setSearchField(e.target.value)}
-            >
-              <option value="" disabled>
-                Select a field
-              </option>
-              {tableHeaders.map((th) => (
-                <option key={th.name} value={th.name}>
-                  {th.label}
+      {filter && (
+        <div className="search-filter">
+          <div className="search-select">
+            Search by:
+            <div className="custom-select">
+              <select
+                value={searchField}
+                onChange={(e) => setSearchField(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select a field
                 </option>
-              ))}
-            </select>
-            <PiCaretDownBold className="custom-caret" />
+                {tableHeaders.map((th) => (
+                  <option key={th.name} value={th.name}>
+                    {th.label}
+                  </option>
+                ))}
+              </select>
+              <PiCaretDownBold className="custom-caret" />
+            </div>
           </div>
-        </div>
-        <input
-          value={searchQuery}
-          onChange={searchData}
-          placeholder="Search keyword"
-        />
-
-        <div className="pagination-container">
-          Goto{" "}
           <input
-            type="number"
-            onChange={goToPage}
-            // min={0}
-            // value={currentPage}
+            value={searchQuery}
+            onChange={searchData}
+            placeholder="Search keyword"
           />
-          <div className="pagination">
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <GrPrevious />
-            </button>
-            <div className="pagination-pages">{renderPageNumbers}</div>
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={
-                currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
-              }
-            >
-              <GrNext />
-            </button>
+
+          <div className="pagination-container">
+            Goto{" "}
+            <input
+              type="number"
+              onChange={goToPage}
+              // min={0}
+              value={currentPage}
+            />
+            <div className="pagination">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <GrPrevious />
+              </button>
+              <div className="pagination-pages">{renderPageNumbers}</div>
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={
+                  currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
+                }
+              >
+                <GrNext />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div role="region" aria-label="data table" className="responsive-table">
         <table>
           <thead>
@@ -164,22 +180,23 @@ const DataTable = ({ tableHeaders, tableData, handleRowClick, loading }) => {
             {loading ? (
               <tr>
                 <td colSpan={6} style={{ textAlign: "center" }}>
-                  ...Loading
+                  {[...Array(itemsPerPage)].map((_, index) => (
+                    <div key={index} className="fade-div"></div>
+                  ))}
                 </td>
               </tr>
             ) : currentItems.length > 0 ? (
               currentItems.map((user) => (
                 <tr key={user.id} onClick={() => handleRowClick(user)}>
-                  <td data-label="First Name">{user.first_name}</td>
-                  <td data-label="Last Name">{user.last_name}</td>
-                  <td data-label="Username">{user.username}</td>
-                  <td data-label="Email">{user.email}</td>
-                  <td data-label="Country">{user.country}</td>
-                  <td data-label="Join Date">
-                    {moment(
-                      new Date(user.join_date * 1000).toLocaleString()
-                    ).format("ll")}
-                  </td>
+                  {tableHeaders.map((header) => (
+                    <td key={header.name}>
+                      {header.type === "date"
+                        ? moment(
+                            new Date(user.join_date * 1000).toLocaleString()
+                          ).format("ll")
+                        : user[header.name]}
+                    </td>
+                  ))}
                 </tr>
               ))
             ) : (
