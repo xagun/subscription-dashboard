@@ -7,17 +7,18 @@ import { isSubscriptionExpired } from "../lib/utils";
 import { BiSort } from "react-icons/bi";
 import { PiCaretDownBold } from "react-icons/pi";
 import { GrNext, GrPrevious } from "react-icons/gr";
+import DataTable from "./components/DataTable";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
-  const [sortField, setSortField] = useState("");
-  const [sortDirection, setSortDirection] = useState("asc");
-  const [filterCountry, setFilterCountry] = useState("");
+  // const [sortField, setSortField] = useState("");
+  // const [sortDirection, setSortDirection] = useState("asc");
+  // const [filterCountry, setFilterCountry] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8); // Number of items per page
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage] = useState(8);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -48,270 +49,48 @@ const UserList = () => {
     loadData();
   }, []);
 
-  const sortUsers = (field, direction) => {
-    setSortField(field);
-    setSortDirection(direction);
-  };
-
-  const filterUsersByCountry = (country) => {
-    setFilterCountry(country);
-  };
-
-  const handleUserClick = (user) => {
+  const handleRowClick = (user) => {
     setSelectedUser(user);
     openModal();
   };
-
-  const filteredUsers = users.filter((user) =>
-    filterCountry ? user.country.includes(filterCountry) : true
-  );
-
-  const sortedUsers = filteredUsers.sort((a, b) => {
-    if (a[sortField] < b[sortField]) return sortDirection === "asc" ? -1 : 1;
-    if (a[sortField] > b[sortField]) return sortDirection === "asc" ? 1 : -1;
-    return 0;
-  });
-
   const userSubscription = selectedUser
     ? subscriptions.find((sub) => sub.user_id == selectedUser.id)
     : null;
 
-  // Calculate pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
+  // if (isFetching) return "Loading....";
 
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(parseInt(pageNumber));
-  console.log(currentPage);
-  console.log(typeof currentPage);
-
-  // Pagination control display logic
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(sortedUsers.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const renderPageNumbers = pageNumbers.map((number) => {
-    if (
-      number === 1 ||
-      number === currentPage ||
-      number === currentPage - 1 ||
-      number === currentPage + 1 ||
-      number === currentPage - 2 ||
-      number === currentPage + 2 ||
-      number === Math.ceil(sortedUsers.length / itemsPerPage)
-    ) {
-      return (
-        <button
-          key={number}
-          className={currentPage === number ? "active" : ""}
-          onClick={() => paginate(number)}
-        >
-          {number}
-        </button>
-      );
-    } else if (number === currentPage - 3 || number === currentPage + 3) {
-      return (
-        <span key={number} className="ellipsis">
-          ...
-        </span>
-      );
-    }
-    return null;
-  });
-
-  const goToPage = (e) => {
-    let pageNo = parseInt(e.target.value);
-
-    if (pageNo > 0 && pageNo <= Math.ceil(sortedUsers.length / itemsPerPage))
-      paginate(e.target.value);
-  };
-
-  if (isFetching) return "Loading....";
+  const tableHeaders = [
+    { name: "first_name", label: "First Name" },
+    { name: "last_name", label: "Last Name" },
+    { name: "username", label: "Username" },
+    { name: "email", label: "Email" },
+    { name: "country", label: "Country" },
+    {
+      name: "join_date",
+      label: "Join Date",
+    },
+  ];
 
   return (
     <div className="user-list-container">
       <h1>Subscribers</h1>
-      <div className="search-filter">
-        <div className="search-select">
-          Search by:
-          <div className="custom-select">
-            <select
-              value={sortField}
-              onChange={(e) => sortUsers(e.target.value, sortDirection)}
-            >
-              <option value="" disabled>
-                Select a field
-              </option>
-              <option value="first_name">First Name</option>
-              <option value="last_name">Last Name</option>
-              <option value="join_date">Join Date</option>
-            </select>
-            <PiCaretDownBold className="custom-caret" />
-          </div>
-        </div>
-        <input
-          value={filterCountry}
-          onChange={(e) => filterUsersByCountry(e.target.value)}
-          placeholder="Filter by country"
-        />
-
-        <div className="pagination-container">
-          Goto <input type="number" onChange={goToPage} />
-          <div className="pagination">
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <GrPrevious />
-            </button>
-            <div className="pagination-pages">{renderPageNumbers}</div>
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={
-                currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
-              }
-            >
-              <GrNext />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div role="region" aria-label="data table" className="responsive-table">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">
-                <div className="theader">
-                  <div>First Name</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "first_name",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="theader">
-                  <div>Last Name</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "last_name",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="theader">
-                  <div>Username</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "username",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="theader">
-                  <div>Email</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "email",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="theader">
-                  <div>Country</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "country",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-              <th scope="col">
-                <div className="theader">
-                  <div>Join Date</div>
-                  <div
-                    onClick={() =>
-                      sortUsers(
-                        "join_date",
-                        sortDirection === "asc" ? "desc" : "asc"
-                      )
-                    }
-                  >
-                    <div className="filter-arrow">
-                      <BiSort />
-                    </div>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {currentItems.map((user) => (
-              <tr key={user.id} onClick={() => handleUserClick(user)}>
-                <td data-label="First Name">{user.first_name}</td>
-                <td data-label="Last Name">{user.last_name}</td>
-                <td data-label="Username">{user.username}</td>
-                <td data-label="Email">{user.email}</td>
-                <td data-label="Country">{user.country}</td>
-                <td data-label="Join Date">
-                  {new Date(user.join_date * 1000).toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        tableHeaders={tableHeaders}
+        tableData={users}
+        handleRowClick={handleRowClick}
+        loading={isFetching}
+      />
 
       {isModalOpen && (
         <Modal header="Subscription Details" onClose={closeModal}>
           {selectedUser && userSubscription ? (
             <>
-              <div>
-                {isSubscriptionExpired(userSubscription.expires_on)
-                  ? "Expired"
-                  : "Active"}
+              <div className="subscription-validity">
+                <span className="badge subscription-expired">
+                  {isSubscriptionExpired(userSubscription.expires_on)
+                    ? "Expired"
+                    : "Active"}
+                </span>
               </div>
               <p>
                 <strong>Name:</strong> {selectedUser.first_name}{" "}

@@ -78,9 +78,8 @@ body {
         font-size: 18px;
         font-weight: 400;
 
-        i {
-          font-size: 22px;
-          font-weight: 100;
+        svg {
+          font-size: 28px;
         }
       }
 
@@ -143,6 +142,7 @@ body {
         display: flex;
         gap: 20px;
         align-items: center;
+        flex-wrap: wrap;
 
         .search-select {
           display: flex;
@@ -434,4 +434,27 @@ tbody tr:hover {
       color: white;
     }
   }
+}
+
+.subscription-validity {
+  float: right;
+}
+
+.badge {
+  border: none;
+  border-radius: 25px;
+  padding: 5px 10px;
+  color: white;
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscription-expired {
+  background-color: red;
+}
+
+.subscription-active {
+  background-color: green;
 }

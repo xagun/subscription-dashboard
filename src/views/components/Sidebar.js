@@ -52,7 +52,7 @@ const Sidebar = () => {
                 useCheckActivePath("/") ? "active-link" : ""
               }`}
             >
-              <RxDashboard size={28} />
+              <RxDashboard />
               Dashboard
             </Link>
           </div>
@@ -64,7 +64,7 @@ const Sidebar = () => {
                 useCheckActivePath("/users") ? "active-link" : ""
               }`}
             >
-              <RiGroupLine size={28} />
+              <RiGroupLine />
               Users
             </Link>
           </div>
