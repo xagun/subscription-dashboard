@@ -68,23 +68,24 @@ const UserList = () => {
     {
       name: "join_date",
       label: "Join Date",
+      type: "date",
     },
   ];
 
   return (
     <div className="user-list-container">
-      <h1>Subscribers</h1>
       <DataTable
         tableHeaders={tableHeaders}
         tableData={users}
         handleRowClick={handleRowClick}
         loading={isFetching}
+        filter={true}
       />
 
       {isModalOpen && (
         <Modal header="Subscription Details" onClose={closeModal}>
           {selectedUser && userSubscription ? (
-            <>
+            <div className="subscription-detail">
               <div className="subscription-validity">
                 <span className="badge subscription-expired">
                   {isSubscriptionExpired(userSubscription.expires_on)
@@ -92,18 +93,20 @@ const UserList = () => {
                     : "Active"}
                 </span>
               </div>
-              <p>
-                <strong>Name:</strong> {selectedUser.first_name}{" "}
-                {selectedUser.last_name}
-              </p>
-              <p>
-                <strong>Package:</strong> {userSubscription.package}
-              </p>
-              <p>
-                <strong>Expires on:</strong>{" "}
-                {moment(userSubscription.expires_on).format("lll")}
-              </p>
-            </>
+              <div className="subscription-desc">
+                <p>
+                  <small>Name :</small> {selectedUser.first_name}{" "}
+                  {selectedUser.last_name}
+                </p>
+                <p>
+                  <small>Package :</small> {userSubscription.package}
+                </p>
+                <p>
+                  <small>Expires on :</small>{" "}
+                  {moment(userSubscription.expires_on).format("lll")}
+                </p>
+              </div>
+            </div>
           ) : (
             <div>This user has not subscribed to any plan yet!!</div>
           )}

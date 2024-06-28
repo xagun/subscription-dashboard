@@ -126,13 +126,100 @@ body {
   .dashboard-layout {
     flex: 1;
     background-color: $bg-light;
-    padding: 3rem;
+    padding: 2rem 3rem;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
     transition: border-radius 0.5s ease;
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+
+      .page-header {
+        font-size: 18px;
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+        // gap: 20px;
+        svg {
+          font-size: 32px;
+        }
+      }
+
+      .header-right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        border-left: 2px solid $primary-orange;
+        padding-left: 30px;
+        .header {
+          display: flex;
+          flex-direction: column;
+          .header-title {
+            font-size: 16px;
+            font-weight: 300;
+          }
+          .header-username {
+            font-weight: 400;
+            font-size: 22px;
+          }
+        }
+
+        .header-img {
+          height: 60px;
+          width: 60px;
+          border-radius: 50%;
+          overflow: hidden;
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+    }
+
+    .dashboard-container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+
+      .dashboard-box {
+        background-color: white;
+        border-radius: 20px;
+        // width: 300px;
+        padding: 1rem;
+        small {
+          font-weight: 300;
+          font-size: 20px;
+        }
+      }
+
+      .dashboard-left {
+        display: flex;
+        gap: 10px;
+        width: 60%;
+        .dashboard-box {
+          width: 100%;
+          height: 120px;
+        }
+      }
+      .dashboard-right {
+        width: 40%;
+        .dashboard-box {
+          // width: 100%;
+          overflow: hidden;
+        }
+        table {
+          font-size: 14px;
+        }
+      }
+    }
+
     .user-list-container {
       display: flex;
       flex-direction: column;
@@ -186,6 +273,19 @@ body {
           background-color: white;
         }
       }
+
+      .subscription-detail {
+        .subscription-desc {
+          small {
+            font-weight: 400;
+            margin-right: 10px;
+          }
+          p {
+            font-size: 18px;
+            font-weight: 300;
+          }
+        }
+      }
     }
   }
 }
@@ -212,6 +312,7 @@ body {
   max-width: 600px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-out;
+  padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -225,7 +326,7 @@ body {
 
 // Modal Header
 .modal-header {
-  padding: 12px;
+  // padding: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -236,6 +337,7 @@ body {
   font-size: 1.5em;
   color: $primary-purple;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .modal-close {
@@ -249,11 +351,6 @@ body {
 
 .modal-close:hover {
   color: #000;
-}
-
-//  Modal Content
-.modal-content {
-  padding: 16px;
 }
 
 // table ui
@@ -372,6 +469,12 @@ tbody tr:hover {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       transition: border-radius 0.5s ease;
+
+      .header-container {
+        .page-header {
+          visibility: hidden;
+        }
+      }
     }
   }
 }
@@ -388,9 +491,6 @@ tbody tr:hover {
   .pagination {
     display: flex;
     gap: 10px;
-    // padding: 10px 50px;
-    // background-color: white;
-    // border-radius: 50px;
     align-items: center;
 
     .pagination-pages {
@@ -415,8 +515,6 @@ tbody tr:hover {
       border-radius: 50%;
       font-weight: 600;
       background-color: white;
-      //   border: 1px solid $primary-orange;
-      //   border-color: $primary-orange;
       border: none;
       cursor: pointer;
 
@@ -457,4 +555,25 @@ tbody tr:hover {
 
 .subscription-active {
   background-color: green;
+}
+
+.fade-div {
+  height: 40px;
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    to top right,
+    rgb(235, 235, 235),
+    rgb(230, 230, 230)
+  );
+  animation: shimmer 1s infinite;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }
