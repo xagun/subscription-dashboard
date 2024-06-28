@@ -33,6 +33,9 @@ const Sidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const isActiveRoot = useCheckActivePath("/");
+  const isActiveDashboard = useCheckActivePath("/dashboard");
+  const isDashboard = isActiveRoot || isActiveDashboard;
   return (
     <>
       <div className={`sidebar-container ${isSidebarOpen ? "open" : "closed"}`}>
@@ -48,9 +51,7 @@ const Sidebar = () => {
           <div className="sidebar-item">
             <Link
               to="/"
-              className={`sidebar-link ${
-                useCheckActivePath("/") ? "active-link" : ""
-              }`}
+              className={`sidebar-link ${isDashboard ? "active-link" : ""}`}
             >
               <RxDashboard />
               Dashboard
@@ -59,13 +60,13 @@ const Sidebar = () => {
 
           <div className="sidebar-item">
             <Link
-              to="/users"
+              to="/subscribers"
               className={`sidebar-link ${
-                useCheckActivePath("/users") ? "active-link" : ""
+                useCheckActivePath("/subscribers") ? "active-link" : ""
               }`}
             >
               <RiGroupLine />
-              Users
+              Subscribers
             </Link>
           </div>
         </div>
