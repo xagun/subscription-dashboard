@@ -40,7 +40,9 @@ const DataTable = ({
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filter
+    ? sortedUsers.slice(indexOfFirstItem, indexOfLastItem)
+    : sortedUsers;
 
   // Change page
   const paginate = (pageNumber) => {
@@ -177,35 +179,58 @@ const DataTable = ({
           </thead>
 
           <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
-                  {[...Array(itemsPerPage)].map((_, index) => (
-                    <div key={index} className="fade-div"></div>
-                  ))}
-                </td>
-              </tr>
-            ) : currentItems.length > 0 ? (
-              currentItems.map((user) => (
-                <tr key={user.id} onClick={() => handleRowClick(user)}>
-                  {tableHeaders.map((header) => (
-                    <td key={header.name}>
-                      {header.type === "date"
-                        ? moment(
-                            new Date(user.join_date * 1000).toLocaleString()
-                          ).format("ll")
-                        : user[header.name]}
-                    </td>
-                  ))}
+            {
+              loading ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center" }}>
+                    {[...Array(itemsPerPage)].map((_, index) => (
+                      <div key={index} className="fade-div"></div>
+                    ))}
+                  </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
-                  No records found
-                </td>
-              </tr>
-            )}
+              ) : currentItems.length > 0 ? (
+                currentItems.map((user) => (
+                  <tr key={user.id} onClick={() => handleRowClick(user)}>
+                    {tableHeaders.map((header) => (
+                      <td key={header.name}>
+                        {header.type === "date"
+                          ? moment(
+                              new Date(user.join_date * 1000).toLocaleString()
+                            ).format("ll")
+                          : user[header.name]}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: "center" }}>
+                    No records found
+                  </td>
+                </tr>
+              )
+              //  : tableData.length > 0 ? (
+              //   tableData.map((user) => (
+              //     <tr key={user.id} onClick={() => handleRowClick(user)}>
+              //       {tableHeaders.map((header) => (
+              //         <td key={header.name}>
+              //           {header.type === "date"
+              //             ? moment(
+              //                 new Date(user.join_date * 1000).toLocaleString()
+              //               ).format("ll")
+              //             : user[header.name]}
+              //         </td>
+              //       ))}
+              //     </tr>
+              //   ))
+              // ) : (
+              //   <tr>
+              //     <td colSpan={6} style={{ textAlign: "center" }}>
+              //       No records found
+              //     </td>
+              //   </tr>
+              // )
+            }
           </tbody>
         </table>
       </div>

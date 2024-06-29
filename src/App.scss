@@ -22,6 +22,12 @@ $dark: #000;
   color: $light-grey;
 }
 
+.custom-box-shadow {
+  -webkit-box-shadow: 1px 2px 20px 0px rgb(206, 204, 206);
+  -moz-box-shadow: 1px 2px 20px 0px rgb(206, 204, 206);
+  box-shadow: 1px 2px 20px 0px rgb(206, 204, 206);
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -46,7 +52,7 @@ body {
       height: 100%;
       flex-direction: column;
       gap: 10px;
-      padding: 2rem 1rem;
+      padding: 4rem 1rem;
 
       .sidebar-logo {
         display: flex;
@@ -104,8 +110,8 @@ body {
   .toggle-sidebar-btn {
     display: none;
     position: fixed;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     height: 60px;
     width: 60px;
     background-color: $secondary-color;
@@ -115,10 +121,12 @@ body {
     cursor: pointer;
     z-index: 10001;
     transition: transform 0.3s ease;
+
     svg {
       font-size: 30px;
     }
   }
+
   .toggle-sidebar-btn.open {
     transform: rotate(180deg);
   }
@@ -126,13 +134,14 @@ body {
   .dashboard-layout {
     flex: 1;
     background-color: $bg-light;
-    padding: 2rem 3rem;
+    padding: 1.5rem 3rem;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
     transition: border-radius 0.5s ease;
+
     .header-container {
       display: flex;
       justify-content: space-between;
@@ -144,6 +153,7 @@ body {
         text-transform: capitalize;
         display: flex;
         align-items: center;
+
         // gap: 20px;
         svg {
           font-size: 32px;
@@ -156,13 +166,16 @@ body {
         align-items: center;
         border-left: 2px solid $primary-orange;
         padding-left: 30px;
+
         .header {
           display: flex;
           flex-direction: column;
+
           .header-title {
             font-size: 16px;
             font-weight: 300;
           }
+
           .header-username {
             font-weight: 400;
             font-size: 22px;
@@ -174,6 +187,7 @@ body {
           width: 60px;
           border-radius: 50%;
           overflow: hidden;
+
           img {
             height: 100%;
             width: 100%;
@@ -185,35 +199,95 @@ body {
 
     .dashboard-container {
       display: flex;
-      gap: 20px;
+      gap: 30px;
       width: 100%;
+      // flex-wrap: wrap;
 
       .dashboard-box {
         background-color: white;
         border-radius: 20px;
+
         // width: 300px;
         padding: 1rem;
+
         small {
           font-weight: 300;
-          font-size: 20px;
+          // font-size: 20px;
+          // font-size: clamp(14px, 18px, 22px);
+          font-size: clamp(1rem, -0.575rem + 4vw, 1.5rem);
+        }
+
+        h1 {
+          font-size: clamp(1.6rem, -0.575rem + 4vw, 2.5rem);
+        }
+
+        .subscription-detail {
+          display: flex;
+          font-size: 18px;
+          justify-content: space-between;
+          align-items: center;
+
+          .subscription-desc {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+
+            small {
+              font-size: 14px;
+            }
+          }
+
+          .expired-subscription {
+            height: 20px;
+            width: 20px;
+            background-color: red;
+          }
+
+          .active-subscription {
+            height: 20px;
+            width: 20px;
+            background-color: green;
+          }
+
+          .subscription-status {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
         }
       }
 
       .dashboard-left {
-        display: flex;
-        gap: 10px;
         width: 60%;
-        .dashboard-box {
-          width: 100%;
-          height: 120px;
+
+        .dashboard-column {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 2rem;
+
+          .dashboard-box {
+            width: 100%;
+            height: 120px;
+          }
+        }
+
+        .package-table {
+          background-color: white;
+          border-radius: 25px;
+          padding: 1rem;
+          h1 {
+            font-weight: 300;
+            font-size: clamp(1rem, -0.575rem + 4vw, 1.5rem);
+          }
+          .responsive-table {
+            max-height: 400px;
+          }
         }
       }
+
       .dashboard-right {
         width: 40%;
-        .dashboard-box {
-          // width: 100%;
-          overflow: hidden;
-        }
+
         table {
           font-size: 14px;
         }
@@ -246,14 +320,18 @@ body {
             top: 50%;
             right: 10px;
             transform: translateY(-50%);
-            pointer-events: none; /* Ensures clicks pass through to select */
+            pointer-events: none;
+            /* Ensures clicks pass through to select */
           }
 
           select {
             width: 140px;
-            appearance: none; /* Removes default appearance */
-            -webkit-appearance: none; /* For older webkit browsers */
-            -moz-appearance: none; /* For older Firefox */
+            appearance: none;
+            /* Removes default appearance */
+            -webkit-appearance: none;
+            /* For older webkit browsers */
+            -moz-appearance: none;
+            /* For older Firefox */
 
             background-color: #ffffff;
             padding: 10px 20px;
@@ -262,6 +340,7 @@ body {
             background-size: 20px;
           }
         }
+
         input,
         select {
           height: 38px;
@@ -280,6 +359,7 @@ body {
             font-weight: 400;
             margin-right: 10px;
           }
+
           p {
             font-size: 18px;
             font-weight: 300;
@@ -319,6 +399,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -358,26 +439,31 @@ body {
   overflow-x: scroll;
   height: calc(100vh - 270px);
 }
+
 table {
   border-collapse: collapse;
   border: 0;
   width: 100%;
   overflow: hidden;
 }
+
 th,
 td {
   border-bottom: 1px solid $light-grey;
   background-clip: padding-box;
   scroll-snap-align: start;
 }
+
 tbody tr:last-child th,
 tbody tr:last-child td {
   border-bottom: 0;
 }
+
 thead {
   position: relative;
   border-bottom: 1.2px solid $dark;
 }
+
 thead tr th .theader {
   display: flex;
   flex-direction: row;
@@ -391,11 +477,13 @@ thead tr th .theader {
     display: inline;
     color: $light-grey;
   }
+
   .filter-arrow:hover {
     color: $dark;
     cursor: pointer;
   }
 }
+
 th,
 td {
   padding: 14px;
@@ -404,6 +492,7 @@ td {
   margin: 0;
   word-break: break-all;
 }
+
 thead th {
   position: sticky;
   top: 0;
@@ -411,27 +500,33 @@ thead th {
   background-clip: padding-box;
   font-weight: 400;
 }
+
 thead th.pin {
   left: 0;
   z-index: 1001;
   border-left: 0;
 }
+
 tbody th {
   background-clip: padding-box;
   border-left: 0;
 }
+
 tbody {
   z-index: 10;
   position: relative;
   font-weight: 500;
 }
+
 tbody th {
   position: sticky;
   left: 0;
 }
+
 tbody tr {
   height: 60px;
 }
+
 tbody tr:hover {
   cursor: pointer;
   background-color: white;
@@ -452,6 +547,7 @@ tbody tr:hover {
               color: white;
             }
           }
+
           h1 {
             color: white;
           }
@@ -471,8 +567,32 @@ tbody tr:hover {
       transition: border-radius 0.5s ease;
 
       .header-container {
+        // visibility: hidden;
+        margin-bottom: 20px;
         .page-header {
           visibility: hidden;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1099px) {
+  .main-layout {
+    .dashboard-layout {
+      .dashboard-container {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        // flex-wrap: wrap;
+        flex-direction: column;
+
+        .dashboard-right {
+          width: 100%;
+        }
+
+        .dashboard-left {
+          width: 100%;
         }
       }
     }
@@ -485,9 +605,11 @@ tbody tr:hover {
   flex-grow: 1;
   align-items: center;
   gap: 10px;
+
   input {
     width: 40px !important;
   }
+
   .pagination {
     display: flex;
     gap: 10px;
@@ -500,6 +622,7 @@ tbody tr:hover {
       padding: 10px 20px;
       border-radius: 50px;
       gap: 5px;
+
       button {
         border: none;
       }
@@ -527,6 +650,7 @@ tbody tr:hover {
         font-size: 20px;
       }
     }
+
     .active {
       background-color: $primary-purple;
       color: white;
@@ -569,10 +693,12 @@ tbody tr:hover {
   );
   animation: shimmer 1s infinite;
 }
+
 @keyframes shimmer {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
