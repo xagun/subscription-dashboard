@@ -52,6 +52,7 @@ const Sidebar = () => {
             <Link
               to="/"
               className={`sidebar-link ${isDashboard ? "active-link" : ""}`}
+              onClick={() => isSmallScreen && setIsSidebarOpen(false)}
             >
               <RxDashboard />
               Dashboard
@@ -60,13 +61,14 @@ const Sidebar = () => {
 
           <div className="sidebar-item">
             <Link
-              to="/subscribers"
+              to="/users"
               className={`sidebar-link ${
-                useCheckActivePath("/subscribers") ? "active-link" : ""
+                useCheckActivePath("/users") ? "active-link" : ""
               }`}
+              onClick={() => isSmallScreen && setIsSidebarOpen(false)}
             >
               <RiGroupLine />
-              Subscribers
+              Users
             </Link>
           </div>
         </div>

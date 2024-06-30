@@ -28,6 +28,11 @@ $dark: #000;
   box-shadow: 1px 2px 20px 0px rgb(206, 204, 206);
 }
 
+.primary-header {
+  font-size: 28px;
+  font-weight: 300;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -41,7 +46,7 @@ select {
   border: 1px solid rgb(207, 206, 206);
   background-color: transparent;
   padding: 0 10px;
-  width: 200px;
+  max-width: 200px;
   background-color: white;
 }
 
@@ -359,6 +364,11 @@ select {
             background-size: 20px;
           }
         }
+
+        .date-range {
+          display: flex;
+          gap: 20px;
+        }
       }
 
       .subscription-desc {
@@ -399,6 +409,7 @@ select {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-out;
   padding: 20px;
+  position: relative;
 }
 
 @keyframes fadeIn {
@@ -413,9 +424,7 @@ select {
 
 // Modal Header
 .modal-header {
-  // padding: 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -434,6 +443,9 @@ select {
   cursor: pointer;
   color: #aaa;
   transition: color 0.2s;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
 .modal-close:hover {
@@ -542,6 +554,149 @@ tbody tr:hover {
   background-color: white;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  input {
+    width: 40px !important;
+  }
+
+  .pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .pagination-pages {
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      gap: 5px;
+
+      button {
+        border: none;
+      }
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      height: 30px;
+      width: 30px;
+      align-items: center;
+      font-size: 12px;
+      border-radius: 50%;
+      font-weight: 600;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #8b58ce;
+        color: white;
+      }
+
+      svg {
+        font-size: 20px;
+      }
+    }
+
+    .active {
+      background-color: $primary-purple;
+      color: white;
+    }
+  }
+}
+
+.subscription-validity {
+  float: right;
+}
+
+.badge {
+  border: none;
+  border-radius: 25px;
+  padding: 5px 15px;
+  color: white;
+  display: flex;
+  font-weight: 300;
+  align-items: center;
+  justify-content: center;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.subscription-expired {
+  background-color: red;
+}
+
+.subscription-active {
+  background-color: green;
+}
+
+.fade-div {
+  height: 40px;
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  background: linear-gradient(
+    to top right,
+    rgb(235, 235, 235),
+    rgb(230, 230, 230)
+  );
+  animation: shimmer 1s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.pie-chart-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+
+  .chart-area {
+    width: 200px;
+  }
+}
+
+.user-desc {
+  margin-bottom: 30px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .main-layout {
+    .dashboard-layout {
+      .dashboard-container {
+        display: flex;
+        gap: 0;
+        width: 100%;
+        flex-direction: column;
+
+        .dashboard-right {
+          width: 100%;
+        }
+
+        .dashboard-left {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .main-layout {
     .sidebar-container {
@@ -607,133 +762,6 @@ tbody tr:hover {
   }
 }
 
-.pagination-container {
-  display: flex;
-  justify-content: flex-end;
-  flex-grow: 1;
-  align-items: center;
-  gap: 10px;
-
-  input {
-    width: 40px !important;
-  }
-
-  .pagination {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-
-    .pagination-pages {
-      display: flex;
-      flex-direction: row;
-      background-color: white;
-      padding: 10px 20px;
-      border-radius: 50px;
-      gap: 5px;
-
-      button {
-        border: none;
-      }
-    }
-
-    button {
-      display: flex;
-      justify-content: center;
-      height: 30px;
-      width: 30px;
-      align-items: center;
-      font-size: 12px;
-      border-radius: 50%;
-      font-weight: 600;
-      background-color: white;
-      border: none;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #8b58ce;
-        color: white;
-      }
-
-      svg {
-        font-size: 20px;
-      }
-    }
-
-    .active {
-      background-color: $primary-purple;
-      color: white;
-    }
-  }
-}
-
-.subscription-validity {
-  float: right;
-}
-
-.badge {
-  border: none;
-  border-radius: 25px;
-  padding: 5px 10px;
-  color: white;
-  display: flex;
-  font-weight: 600;
-  align-items: center;
-  justify-content: center;
-  display: inline-block;
-}
-
-.subscription-expired {
-  background-color: red;
-}
-
-.subscription-active {
-  background-color: green;
-}
-
-.fade-div {
-  height: 40px;
-  width: 100%;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  background: linear-gradient(
-    to top right,
-    rgb(235, 235, 235),
-    rgb(230, 230, 230)
-  );
-  animation: shimmer 1s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .main-layout {
-    .dashboard-layout {
-      .dashboard-container {
-        display: flex;
-        gap: 20px;
-        width: 100%;
-        flex-direction: column;
-
-        .dashboard-right {
-          width: 100%;
-        }
-
-        .dashboard-left {
-          width: 100%;
-        }
-      }
-    }
-  }
-}
-
 @media only screen and (max-width: 480px) {
   .main-layout {
     .dashboard-layout {
@@ -758,15 +786,5 @@ tbody tr:hover {
         }
       }
     }
-  }
-}
-
-.pie-chart-container {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-
-  .chart-area {
-    width: 200px;
   }
 }
