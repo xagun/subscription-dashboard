@@ -23,7 +23,7 @@ const Layout = () => {
           <div className="header-right">
             <div className="header">
               <span className="header-title">Welcome back</span>
-              <span className="header-username">Tony Bahadur Stark</span>
+              <span className="header-username">Admin</span>
             </div>
             <div className="header-img">
               <img src="./user.png" alt="user profile" />

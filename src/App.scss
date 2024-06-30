@@ -196,6 +196,7 @@ select {
           .header-username {
             font-weight: 400;
             font-size: 22px;
+            text-align: right;
           }
         }
 
@@ -409,6 +410,7 @@ select {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-out;
   padding: 20px;
+  margin: 10px;
   position: relative;
 }
 
@@ -676,6 +678,40 @@ tbody tr:hover {
   margin-bottom: 30px;
 }
 
+.not-found-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $secondary-color;
+  gap: 0px;
+  padding: 50px;
+  h1 {
+    color: white;
+    font-size: 8rem;
+    margin: 0;
+  }
+  h4 {
+    color: white;
+    font-size: clamp(1rem, 4.5vw, 4rem);
+
+    margin: 0;
+  }
+  p {
+    font-size: clamp(0.875rem, 4.5vw, 1.5rem);
+    font-weight: 300;
+  }
+  a {
+    background-color: $primary-orange;
+    border-radius: 25px;
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+  }
+}
+
 @media only screen and (max-width: 1200px) {
   .main-layout {
     .dashboard-layout {
@@ -758,6 +794,14 @@ tbody tr:hover {
           }
         }
       }
+    }
+  }
+  .responsive-table {
+    thead {
+      font-size: 14px;
+    }
+    tbody {
+      font-size: 12px;
     }
   }
 }
