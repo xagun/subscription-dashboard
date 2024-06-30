@@ -9,27 +9,19 @@ const DataTable = ({
   tableData,
   handleRowClick,
   loading,
-  filter,
+  pagination,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortField, setSortField] = useState("");
-  const [searchField, setSearchField] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const sortData = (field, direction) => {
     setSortField(field);
     setSortDirection(direction);
   };
 
-  const searchData = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const filteredUsers = tableData.filter((user) =>
-    searchField ? user[searchField].includes(searchQuery) : true
-  );
+  const filteredUsers = tableData;
 
   const sortedUsers = filteredUsers.sort((a, b) => {
     if (a[sortField] < b[sortField]) return sortDirection === "asc" ? -1 : 1;
@@ -40,7 +32,7 @@ const DataTable = ({
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filter
+  const currentItems = pagination
     ? sortedUsers.slice(indexOfFirstItem, indexOfLastItem)
     : sortedUsers;
 
@@ -91,64 +83,36 @@ const DataTable = ({
   });
 
   const goToPage = (e) => {
-    // let pageNo = parseInt(e.target.value);
     paginate(e.target.value);
   };
 
   return (
     <>
-      {filter && (
-        <div className="search-filter">
-          <div className="search-select">
-            Search by:
-            <div className="custom-select">
-              <select
-                value={searchField}
-                onChange={(e) => setSearchField(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select a field
-                </option>
-                {tableHeaders.map((th) => (
-                  <option key={th.name} value={th.name}>
-                    {th.label}
-                  </option>
-                ))}
-              </select>
-              <PiCaretDownBold className="custom-caret" />
-            </div>
-          </div>
+      {pagination && (
+        <div className="pagination-container">
+          Goto{" "}
           <input
-            value={searchQuery}
-            onChange={searchData}
-            placeholder="Search keyword"
+            type="number"
+            onChange={goToPage}
+            // min={0}
+            value={currentPage}
           />
-
-          <div className="pagination-container">
-            Goto{" "}
-            <input
-              type="number"
-              onChange={goToPage}
-              // min={0}
-              value={currentPage}
-            />
-            <div className="pagination">
-              <button
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <GrPrevious />
-              </button>
-              <div className="pagination-pages">{renderPageNumbers}</div>
-              <button
-                onClick={() => paginate(currentPage + 1)}
-                disabled={
-                  currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
-                }
-              >
-                <GrNext />
-              </button>
-            </div>
+          <div className="pagination">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <GrPrevious />
+            </button>
+            <div className="pagination-pages">{renderPageNumbers}</div>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={
+                currentPage === Math.ceil(sortedUsers.length / itemsPerPage)
+              }
+            >
+              <GrNext />
+            </button>
           </div>
         </div>
       )}
@@ -179,58 +143,35 @@ const DataTable = ({
           </thead>
 
           <tbody>
-            {
-              loading ? (
-                <tr>
-                  <td colSpan={6} style={{ textAlign: "center" }}>
-                    {[...Array(itemsPerPage)].map((_, index) => (
-                      <div key={index} className="fade-div"></div>
-                    ))}
-                  </td>
+            {loading ? (
+              <tr>
+                <td colSpan={6} style={{ textAlign: "center" }}>
+                  {[...Array(itemsPerPage)].map((_, index) => (
+                    <div key={index} className="fade-div"></div>
+                  ))}
+                </td>
+              </tr>
+            ) : currentItems.length > 0 ? (
+              currentItems.map((user) => (
+                <tr key={user.id} onClick={() => handleRowClick(user)}>
+                  {tableHeaders.map((header) => (
+                    <td key={header.name}>
+                      {header.type === "date"
+                        ? moment(
+                            new Date(user.join_date * 1000).toLocaleString()
+                          ).format("ll")
+                        : user[header.name]}
+                    </td>
+                  ))}
                 </tr>
-              ) : currentItems.length > 0 ? (
-                currentItems.map((user) => (
-                  <tr key={user.id} onClick={() => handleRowClick(user)}>
-                    {tableHeaders.map((header) => (
-                      <td key={header.name}>
-                        {header.type === "date"
-                          ? moment(
-                              new Date(user.join_date * 1000).toLocaleString()
-                            ).format("ll")
-                          : user[header.name]}
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={6} style={{ textAlign: "center" }}>
-                    No records found
-                  </td>
-                </tr>
-              )
-              //  : tableData.length > 0 ? (
-              //   tableData.map((user) => (
-              //     <tr key={user.id} onClick={() => handleRowClick(user)}>
-              //       {tableHeaders.map((header) => (
-              //         <td key={header.name}>
-              //           {header.type === "date"
-              //             ? moment(
-              //                 new Date(user.join_date * 1000).toLocaleString()
-              //               ).format("ll")
-              //             : user[header.name]}
-              //         </td>
-              //       ))}
-              //     </tr>
-              //   ))
-              // ) : (
-              //   <tr>
-              //     <td colSpan={6} style={{ textAlign: "center" }}>
-              //       No records found
-              //     </td>
-              //   </tr>
-              // )
-            }
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} style={{ textAlign: "center" }}>
+                  No records found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
