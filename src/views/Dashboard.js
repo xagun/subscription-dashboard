@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
-import DataTable from "./components/DataTable";
 import { isSubscriptionExpired } from "../lib/utils";
-import Charts from "./components/Charts";
 import UsersByJoinYearChart from "./components/UsersJoinYearChart";
 import ActiveInactiveUsersChart from "./components/ActiveInactiveUsersChart";
-import JoinDatesChart from "./components/JoinDatesChart";
 import UsersByPlanChart from "./components/UsersByPlan";
 import SubscriptionSummaryChart from "./components/SubscriptionSummaryChart";
 
