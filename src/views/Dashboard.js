@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import DataTable from "./components/DataTable";
 import { isSubscriptionExpired } from "../lib/utils";
+import Charts from "./components/Charts";
+import UsersByJoinYearChart from "./components/UsersJoinYearChart";
+import ActiveInactiveUsersChart from "./components/ActiveInactiveUsersChart";
+import JoinDatesChart from "./components/JoinDatesChart";
+import UsersByPlanChart from "./components/UsersByPlan";
+import SubscriptionSummaryChart from "./components/SubscriptionSummaryChart";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -76,9 +82,6 @@ const Dashboard = () => {
   return (
     <>
       <div className="dashboard-container">
-        {/* <h1>Dashboard</h1>
-      <p className="text-light"> {moment().format("dddd, MMMM D, YYYY")}</p> */}
-
         <div className="dashboard-left">
           <div className="dashboard-column">
             <div className="dashboard-box custom-box-shadow">
@@ -128,26 +131,28 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="package-table custom-box-shadow">
-            <h1>Subscribed packages</h1>
-            <DataTable
-              tableHeaders={packageHeader}
-              tableData={packages}
-              handleRowClick={() => {}}
-              loading={false}
-            />
+          <div className="dashboard-chart custom-box-shadow">
+            <h1>User Distribution by Join Year</h1>
+
+            <UsersByJoinYearChart data={users} />
+          </div>
+
+          <div className="dashboard-chart custom-box-shadow">
+            <h1>Users per subscription plan</h1>
+
+            <UsersByPlanChart data={subscriptions} />
           </div>
         </div>
 
         <div className="dashboard-right">
           <div className="dashboard-box custom-box-shadow">
-            <small>Joined this month</small>
-            <DataTable
-              tableHeaders={tableHeaders}
-              tableData={users}
-              handleRowClick={() => {}}
-              loading={isFetching}
-            />
+            <small>Users summary</small>
+            <ActiveInactiveUsersChart data={users} />
+          </div>
+
+          <div className="dashboard-box custom-box-shadow">
+            <small>Subscription summary</small>
+            <SubscriptionSummaryChart data={subscriptions} />
           </div>
         </div>
       </div>

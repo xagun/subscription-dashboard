@@ -34,6 +34,17 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+input,
+select {
+  height: 38px;
+  border-radius: 25px;
+  border: 1px solid rgb(207, 206, 206);
+  background-color: transparent;
+  padding: 0 10px;
+  width: 200px;
+  background-color: white;
+}
+
 .main-layout {
   height: 100vh;
   overflow: hidden;
@@ -255,7 +266,7 @@ body {
       }
 
       .dashboard-left {
-        width: 60%;
+        width: 70%;
 
         .dashboard-column {
           display: flex;
@@ -268,10 +279,11 @@ body {
           }
         }
 
-        .package-table {
+        .dashboard-chart {
           background-color: white;
           border-radius: 25px;
           padding: 1rem;
+          margin-bottom: 30px;
           table {
             font-size: 12px;
           }
@@ -286,7 +298,14 @@ body {
       }
 
       .dashboard-right {
-        width: 40%;
+        width: 30%;
+
+        .dashboard-box {
+          margin-bottom: 30px;
+          small {
+            margin-bottom: 20px;
+          }
+        }
 
         table {
           font-size: 12px;
@@ -340,30 +359,17 @@ body {
             background-size: 20px;
           }
         }
-
-        input,
-        select {
-          height: 38px;
-          border-radius: 25px;
-          border: 1px solid rgb(207, 206, 206);
-          background-color: transparent;
-          padding: 0 10px;
-          width: 200px;
-          background-color: white;
-        }
       }
 
-      .subscription-detail {
-        .subscription-desc {
-          small {
-            font-weight: 400;
-            margin-right: 10px;
-          }
+      .subscription-desc {
+        small {
+          font-weight: 400;
+          margin-right: 10px;
+        }
 
-          p {
-            font-size: 18px;
-            font-weight: 300;
-          }
+        p {
+          font-size: 18px;
+          font-weight: 300;
         }
       }
     }
@@ -432,6 +438,10 @@ body {
 
 .modal-close:hover {
   color: #000;
+}
+
+.not-subscribed {
+  margin: 1rem 0;
 }
 
 // table ui
@@ -669,6 +679,7 @@ tbody tr:hover {
   font-weight: 600;
   align-items: center;
   justify-content: center;
+  display: inline-block;
 }
 
 .subscription-expired {
@@ -750,10 +761,12 @@ tbody tr:hover {
   }
 }
 
-@media only screen and (min-width: 1201px) {
-  .package-table {
-    .responsive-table {
-      height: auto !important;
-    }
+.pie-chart-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+
+  .chart-area {
+    width: 200px;
   }
 }
